@@ -1,24 +1,57 @@
-# README
+## users テーブル
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+| Column             | Type   | Option                    |
+| ------------------ | ------ | ------------------------- |
+| nickname           | string | null: false               |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false               |
+| surname            | string | null: false               |
+| name　　　　　　　　　| string | null: false               |
+| surname_kana       | string | null: false               |
+| name_kana          | string | null: false               |
+| birthday           | date   | null: false               | 
 
-Things you may want to cover:
+- has_many :items
+- has_many :purchases
 
-* Ruby version
+## items テーブル
 
-* System dependencies
+| Column            | Type       | Option            |
+| ----------------- | ---------- | ----------------- |
+| name              | string     | null: false       |
+| product           | text       | null: false       |
+| category_id       | integer    | null: false       |
+| state_id          | integer    | null: false       |
+| postage_id        | integer    | null: false       |
+| prefecture_id     | integer    | null: false       |
+| shipping_date_id  | integer    | null: false       |
+| price             | integer    | null: false       |
+| user              | references | foreign_key: true |
 
-* Configuration
+- belongs_to :user
+- has_one :purchase
 
-* Database creation
+## purchases テーブル
 
-* Database initialization
+| Column      | Type          | Option            |
+| ----------- | ------------- | ----------------- |
+| user        | references    | foreign_key: true |
+| item        | references    | foreign_key: true |
 
-* How to run the test suite
+- belongs_to :item
+- belongs_to :user
+- has_one :delivery
 
-* Services (job queues, cache servers, search engines, etc.)
+## deliveries テーブル
 
-* Deployment instructions
+| Column             | Type          | Option            |
+| ------------------ | ------------- | ----------------- |
+| postal_code        | string        | null: false       |
+| prefectures_id     | integer       | null: false       |
+| municipal_district | string        | null: false       |
+| address            | string        | null: false       |
+| building_name      | string        |                   |
+| phone_number       | string        | null: false       |
+| purchase           | references    | foreign_key: true |
 
-* ...
+- belongs_to :purchase
