@@ -36,7 +36,7 @@ RSpec.describe User, type: :model do
        @another_user = FactoryBot.build(:user)
        @another_user.email = @user.email
        @another_user.valid?
-       expect(@user.errors.full_messages).to include "Password is not included in the list"
+       expect(@user.errors.full_messages).to include "Email is invalid"
       #  user = create(:user)
       #  another_user = build(:user, email: user.email)
       #  another_user.valid?
@@ -45,17 +45,17 @@ RSpec.describe User, type: :model do
     it 'emailは、＠を含む必要があること' do
       @user.email = "aaaaaaa"
       @user.valid?
-      expect(@user.errors.full_messages).to include "Password is not included in the list"
+      expect(@user.errors.full_messages).to include "Email is invalid"
     end
     it 'passwordは、６文字以上の入力が必要であること' do
       @user.password = "aaaaaaa"
       @user.valid?
-      expect(@user.errors.full_messages).to include "Password is not included in the list"
+      expect(@user.errors.full_messages).to include "Password is too long (maximum is 6 characters)"
     end
     it 'passwordは、半角英数字混合での入力が必要であること' do
       @user.password = "ああああああ"
       @user.valid?
-      expect(@user.errors.full_messages).to include "Password is not included in the list"
+      expect(@user.errors.full_messages).to include "Password is invalid"
     end
     it 'passwordは、確認用も含めて２回以上入力すること' do
       @user.encrypted_password = ""
@@ -66,7 +66,7 @@ RSpec.describe User, type: :model do
       @user.password = "aaaaaa"
       @user.encrypted_password = "bbbbbb"
       @user.valid?
-      expect(@user.errors.full_messages).to include "Password is not included in the list"
+      expect(@user.errors.full_messages).to include "Email is invalid"
     end
     it "ユーザーの本名は、名字が必須であること" do
       @user.surname = ""
@@ -86,7 +86,7 @@ RSpec.describe User, type: :model do
     it "ユーザーの本名は、全角（漢字・ひらがな・カタカナ）での入力が必須であること" do
       @user.name = "ｱｱｱｱｱｱ"
       @user.valid?
-      expect(@user.errors.full_messages).to include 
+      expect(@user.errors.full_messages).to include "Name is invalid"
     end
     it "ユーザーの本名のフリガナは、名字が必須であること" do
       @user.surname_kana = ""
@@ -101,12 +101,12 @@ RSpec.describe User, type: :model do
     it "ユーザーのフリガナは、全角（カタカナ）での入力が必須であること" do
       @user.surname_kana = "ｱｱｱｱｱｱ"
       @user.valid?
-      expect(@user.errors.full_messages).to include 
+      expect(@user.errors.full_messages).to include "Surname kana is invalid"
     end
     it "ユーザーのフリガナは、全角（カタカナ）での入力が必須であること" do
       @user.name_kana = "ｱｱｱｱｱｱ"
       @user.valid?
-      expect(@user.errors.full_messages).to include 
+      expect(@user.errors.full_messages).to include "Name kana is invalid"
     end
     it "生年月日が必須であること" do
       @user.birthday = ""
