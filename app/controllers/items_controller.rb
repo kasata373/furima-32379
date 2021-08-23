@@ -1,4 +1,9 @@
 class ItemsController < ApplicationController
+  before_action :move_to_index, except: [:index, :show]
+
+  def move_to_index
+    redirect_to new_user_session_path unless user_signed_in?
+  end
 
   def index
     # @item = Item.order("created_at DESC")
