@@ -10,7 +10,9 @@
       <%= image_tag "item-sample.png" ,class:"item-box-img" %>
       <%# <% if item.order.present? %> 
       <div class="sold-out">
+      <% if @item.present? %>
         <span>Sold Out!!</span>
+        <% end %>
       </div>
     </div>
      <%# <% else %> 
