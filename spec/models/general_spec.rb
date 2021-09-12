@@ -29,9 +29,9 @@ RSpec.describe General, type: :model do
         expect(@general.errors.full_messages).to include "Postal code is valid."
       end
       it '都道府県の入力が必須であること' do
-        @general.prefectures_id = 0
+        @general.prefecture_id = 0
         @general.valid?
-        expect(@general.errors.full_messages).to include "Prefectures can't be blank"
+        expect(@general.errors.full_messages).to include "Prefecture can't be blank"
       end
       it '市町村の入力が必須であること' do
         @general.municipal_district = ""
@@ -62,6 +62,7 @@ RSpec.describe General, type: :model do
         @general.token = ""
         @general.valid?
         expect(@general.errors.full_messages).to include "Token can't be blank"
+      end
     end
   end
 end
