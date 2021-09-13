@@ -1,8 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe General, type: :model do
-  before do 
-    @general = FactoryBot.build(:general)
+  before do
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.build(:item)
+    @item.image = fixture_file_upload('public/image/test_image.png')
+    @item.save
+    sleep 0.5
+    @general = FactoryBot.build(:general, user_id: @user.id, item_id: @item.id)
   end
 
   describe '購入情報登録' do
@@ -18,6 +23,16 @@ RSpec.describe General, type: :model do
     end
 
     context '商品が購入できない時' do
+      it "uerが紐づいていないと登録できない" do
+        @general.user_id = nil
+        @general.valid?
+        expect(@general.errors.full_messages).to include "User can't be blank"
+      end
+      it "itemが紐づいていないと登録できない" do
+        @general.item_id = nil
+        @general.valid?
+        expect(@general.errors.full_messages).to include "Item can't be blank"
+      end
       it '郵便番号の入力が必須であること' do
         @general.postal_code = ""
         @general.valid?
@@ -55,6 +70,11 @@ RSpec.describe General, type: :model do
       end
       it '電話番号は11桁以内であること' do
         @general.phone_number = "090123456789"
+        @general.valid?
+        expect(@general.errors.full_messages).to include "Phone number is valid."
+      end
+      it '電話番号は半角数字でなければ登録できない' do
+        @general.phone_number = "０９０aaaAAA"
         @general.valid?
         expect(@general.errors.full_messages).to include "Phone number is valid."
       end

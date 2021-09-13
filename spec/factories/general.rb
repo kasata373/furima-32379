@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :general do
     
-    user_id             {1}
-    item_id             {1}
     postal_code         {'123-4567'}
     prefecture_id       {1}
     municipal_district  {'bb町'}
