@@ -16,7 +16,7 @@ class Item < ApplicationRecord
     validates :price
     validates :image
 
-    with_options numericality: { only_integer: true, greater_than: 300, less_than: 9999999} do
+    with_options numericality: { only_integer: true, greater_than: 299, less_than: 10000000} do
       validates :price
     end
 
